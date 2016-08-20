@@ -5,12 +5,16 @@ import java.util.Date;
 
 public class Transaction {
     public final double amount;
+    //wei: need to know the total balance to calculate the interest later on
+    public final double totalBalance;
 
-    private Date transactionDate;
+    public final Date transactionDate;
 
-    public Transaction(double amount) {
+    public Transaction(double amount, double totalBalance) {
         this.amount = amount;
+        this.totalBalance = totalBalance;
         this.transactionDate = DateProvider.getInstance().now();
     }
 
 }
+
