@@ -34,6 +34,11 @@ public class Customer {
         return total;
     }
 
+public void transferAccount(Account in, Account out, double amount) throws  OverdraftException {
+        out.withdraw(amount);
+        in.deposit(amount);
+   }
+
     public String getStatement() {
         String statement = null;
         statement = "Statement for " + name + "\n";
