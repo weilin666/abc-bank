@@ -6,8 +6,30 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class CustomerTest {
+   public static void main(String[] argv){
+        Customer oscar = new Customer("Oscar");
 
-    @Test //Test customer statement generation
+        Account checkingAccount = new Account(Account.CHECKING);
+        Account savingAccount = new Account(Account.SAVINGS);
+
+        checkingAccount.deposit(300);
+        savingAccount.deposit(200);
+        oscar.openAccount(checkingAccount);
+        oscar.openAccount(savingAccount);
+        try{
+           checkingAccount.withdraw(200);
+           System.out.println(checkingAccount.sumTransactions());
+           oscar.transferAccount(checkingAccount, savingAccount, 50);
+           System.out.println(checkingAccount.sumTransactions());
+           System.out.println(savingAccount.sumTransactions());
+        }catch(OverdraftException e) {
+           e.printStackTrace();
+        }
+        System.out.println(oscar.totalInterestEarned());
+
+    }
+
+@Test //Test customer statement generation
     public void testApp(){
 
         Account checkingAccount = new Account(Account.CHECKING);
@@ -17,8 +39,11 @@ public class CustomerTest {
 
         checkingAccount.deposit(100.0);
         savingsAccount.deposit(4000.0);
-        savingsAccount.withdraw(200.0);
-
+        try{
+           savingsAccount.withdraw(200.0);
+        }catch(OverdraftException e) {
+           e.printStackTrace();
+        }
         assertEquals("Statement for Henry\n" +
                 "\n" +
                 "Checking Account\n" +
@@ -32,6 +57,7 @@ public class CustomerTest {
                 "\n" +
                 "Total In All Accounts $3,900.00", henry.getStatement());
     }
+
 
     @Test
     public void testOneAccount(){
